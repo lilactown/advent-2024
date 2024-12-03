@@ -14,12 +14,14 @@
 
 
 (defn parse-input
+  "Parse input into rows of numbers."
   [input]
   (->> (string/split-lines input)
        (map u/split-nums)))
 
 
 (defn safe-level?
+  "Given the delta between two numbers and direction, is it a \"safe\" input?"
   [delta direction]
   (and (= (pos? direction) (pos? delta))
        (not (zero? delta))
@@ -27,6 +29,7 @@
 
 
 (defn safe-report?
+  "Given a row of numbers, are there any unsafe levels?"
   [report]
   (loop [levels report
          direction nil]
@@ -44,6 +47,7 @@
 
 
 (defn part1
+  "Count the number of reports (rows) which contain no unsafe levels."
   [reports]
   (count (filter safe-report? reports)))
 
@@ -59,23 +63,28 @@
 
 
 (defn safe-enough-report?
+  "Given a row of numbers, is there at most one unsafe level?"
   [report]
   (if-not (safe-report? report)
+    ;; there's at least one level causing it to be unsafe
     (loop [levels (vec report)
-           n (dec (count report))]
+           n (dec (count report))] ; for each level in report
       (cond
-        (neg? n) false
+        (neg? n) false ; we've checked all levels
 
+        ;; see if report is safe without that level
         (safe-report? (into (subvec levels 0 n)
                             (subvec levels (inc n))))
         true
 
+        ;; keep trying
         :else
         (recur (vec report) (dec n))))
     true))
 
 
 (defn part2
+  "Count number of reports (rows) which contain at most one unsafe level."
   [reports]
   (count (filter safe-enough-report? reports)))
 
@@ -87,6 +96,8 @@
 (part2 (parse-input example))
 ;; => 4
 
+
+;; Checking edge cases
 
 (remove safe-enough-report?
         (parse-input

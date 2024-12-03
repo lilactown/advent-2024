@@ -14,6 +14,7 @@
 
 
 (defn parse-input
+  "Parse input into columns of numbers."
   [input]
   (let [nums (u/split-nums input)]
     [(take-nth 2 nums)
@@ -25,6 +26,8 @@
 
 
 (defn part1
+  "Sort the columns and then find the distance between each row, adding them
+  together."
   [[lefts rights]]
   ;; sort the two lists
   (let [lefts (sort lefts)
@@ -46,6 +49,8 @@
 
 
 (defn part2
+  "For each value in the left column, find the frequency of it in the right
+  column and multiple the left by the frequency, then add the results."
   [[lefts rights]]
   ;; get frequencies of right side
   (let [right-freqs (frequencies rights)]

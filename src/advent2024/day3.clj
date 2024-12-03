@@ -8,10 +8,13 @@
   "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))")
 
 (defn part1
+  "Find all instructions which match mul(x,y) where x and y are numbers with 1-3
+  digits. Return the sum of all x and y multiplied."
   [input]
   (->> input
        (re-seq #"mul\((\d{1,3}),(\d{1,3})\)")
-       (map (comp #(map Integer/parseInt %) rest))
+       (map (comp #(map Integer/parseInt %)
+                  rest)) ; drop instruction at the front of the match group
        (reduce (fn [acc [x y]]
                  (+ acc (* x y)))
                0)))
@@ -29,6 +32,9 @@
   "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))")
 
 (defn part2
+  "Like part1, but disable all mul(x,y) that come after a don't(), enabling
+  again after a do() instruction. Return the sum of all x and y multiplied for
+  the enabled mul instructions."
   [input]
   (loop [acc 0
          enabled? true
