@@ -37,6 +37,11 @@
 
 
 (defn parse-input
+  "Given input, returns a tuple where the first value is the table of rules and
+  the second is the updates to be made.
+
+  The table of rules is a hash map where the key is a page number and the value
+  is a set of page numbers that should come after it."
   [input]
   (let [lines (string/split-lines input)
         rules (update-vals
@@ -70,6 +75,7 @@
 
 
 (defn valid-update?
+  "Given an update (vector of numbers) and a table of rules, return an x"
   [u rules]
   (loop [u u
          seen #{}]

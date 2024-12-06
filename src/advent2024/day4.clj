@@ -18,6 +18,7 @@ MXMXAXMASX")
 
 
 (defn- parse-input
+  "Converts text grid into vector-of-vector of chars"
   [input]
   (->> input
        (string/split-lines)
@@ -25,6 +26,9 @@ MXMXAXMASX")
 
 
 (defn- xmas?
+  "Takes a grid (vector-of-vectors), an x and y coordinate, and a direction
+  vector, and returns true if the coordinates starting at x,y spell XMAS in the
+  given direction."
   [grid x y dir]
   (loop [s (seq "XMAS")
          x x
@@ -67,6 +71,8 @@ MXMXAXMASX")
 
 
 (defn part1
+  "Given a grid, counts all the times that XMAS is spelled frontwards,
+  backwards, up, down, and diagonally."
   [grid]
   (apply + (for [x (range 0 (count (first grid)))
                  y (range 0 (count grid))
@@ -92,6 +98,11 @@ MXMXAXMASX")
 
 
 (defn x-mas?
+  "Given a grid and x y coordinates, returns true if it's an X-MAS, e.g.
+
+  M   S
+    A
+  M   S"
   [grid x y]
   (let [m (get-in grid [y x])]
     (if (= \A m)
@@ -107,6 +118,7 @@ MXMXAXMASX")
 
 
 (defn part2
+  "Counts the number of X-MAS's in the grid."
   [grid]
   (apply + (for [x (range 0 (count (first grid)))
                  y (range 0 (count grid))
