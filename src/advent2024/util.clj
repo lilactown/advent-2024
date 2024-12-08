@@ -4,7 +4,7 @@
 (defn split-nums
   [s]
   (->> (re-seq #"\d+" s)
-       (map #(Integer/parseInt %))))
+       (map #(Long/parseLong %))))
 
 
 (defmacro loop-br
